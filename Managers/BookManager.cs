@@ -33,7 +33,7 @@ namespace C__Final.Managers
             var found = data[index];
 
             found.Name = item.Name;
-            found.AuthorId = item.AuthorId;
+            found.AuthorId = item.Id;
         }
        
       

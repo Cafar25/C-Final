@@ -30,7 +30,7 @@ namespace C__Final.AuthorName
 
         public override string ToString()
         {
-            return $"{Id} Soyad:{Surname} Ad:{Name}";
+            return $"Author Id:{Id} Soyad:{Surname} Ad:{Name}";
         }
     }
 }

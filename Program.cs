@@ -8,6 +8,7 @@ namespace C__Final
 {
     internal class Program
     {
+      
         static void Main(string[] args)
         {
 
@@ -39,17 +40,14 @@ namespace C__Final
                 - UPDATE   (Edit)
                 - DELETE   (Remove)
              */
+        
+            int Id;
+            MenuTypes sm;
+
             AuthorManager authormanager = new AuthorManager();
             BookManager bookmanager = new BookManager();
-            Author author;
-            int Id;
-           
-         
-            MenuTypes sm;
-           
 
-
-          l1:
+        l1:
             Console.WriteLine("Choose one of them");
             sm = EnumHelper.ReadEnum<MenuTypes>("Menu:");
             switch (sm)
@@ -65,14 +63,14 @@ namespace C__Final
                 case MenuTypes.AuthorEdit:
                     Console.Clear();
                     Console.WriteLine("What you want to edit?");
-                    foreach(var item in authormanager)
+                    foreach (var item in authormanager)
                     {
                         Console.WriteLine(item);
                     }
                     Id = PrimitiveHelper.ReadInt("Author Id:");
 
-                    if(Id == 0)
-                    { 
+                    if (Id == 0)
+                    {
                         goto l1;
                     }
                     Author = authormanager.GetbyID(Id);
@@ -86,19 +84,19 @@ namespace C__Final
 
                     Author.Name = PrimitiveHelper.Readstring("Author Name:");
                     Author.Surname = PrimitiveHelper.Readstring("Author Surname:");
-                    goto case MenuTypes.AuthorGetAll;
-                    break;
+                    goto case MenuTypes.BookEdit;
+
 
                 case MenuTypes.AuthorRemove:
                     Console.Clear();
                     Console.WriteLine("What you want to remove");
-                    foreach(var item in authormanager)
+                    foreach (var item in authormanager)
                     {
                         Console.WriteLine(item);
                     }
                     Id = PrimitiveHelper.ReadInt("Author Id:");
                     Author = authormanager.GetbyID(Id);
-                    if(Author == null)
+                    if (Author == null)
                     {
                         Console.Clear();
                         goto case MenuTypes.AuthorRemove;
@@ -106,27 +104,30 @@ namespace C__Final
                     authormanager.Remove(Author);
                     Console.Clear();
                     goto case MenuTypes.AuthorGetAll;
-                    break;
+                  
 
                 case MenuTypes.AuthorGetAll:
                     Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.DarkBlue;
+
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
                     Console.WriteLine("=============== Authors ==============");
                     Console.ForegroundColor = ConsoleColor.White;
-                    foreach (var item in authormanager)          
-                    {                                            
-                        Console.WriteLine(item);                 
+                    
+                    foreach (var item in authormanager)
+                    {
+                        Console.WriteLine($"{item}");   
                     }
-                    Console.ForegroundColor = ConsoleColor.DarkBlue;
+
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
                     Console.WriteLine("=============== ======= ============");
                     Console.ForegroundColor = ConsoleColor.White;
+                    
                     goto l1;
-                    break;
 
                 case MenuTypes.AuthorGetById:
                     Id = PrimitiveHelper.ReadInt("Author Id");
                     Author = authormanager.GetbyID(Id);
-                    if(Id == 0) 
+                    if (Id == 0)
                     {
                         Console.Clear();
                         goto l1;
@@ -145,42 +146,143 @@ namespace C__Final
                     string name = PrimitiveHelper.Readstring("Write minimum 3 letter:");
                     var data = authormanager.FindByName(name);
 
-                    if(data.Length == 0) 
+                    if (data.Length == 0)
                     {
                         Console.WriteLine("Not found");
 
                         goto l1;
                     }
-                    foreach(var item in data)
+                    foreach (var item in data)
                     {
                         Console.WriteLine(item);
                     }
-                    break;
+                    goto l1;
 
                 case MenuTypes.BookAdd:
+                    if(authormanager == null)
+                    {
+                        goto case MenuTypes.AuthorAdd;
+                    }
+
                     var Book = new Book();
                     Book.Name = PrimitiveHelper.Readstring("Book Name:");
-                   
-                    Book.AuthorId = Author.Id;
+                    Book.Genre = PrimitiveHelper.Readstring("Book Genre:");
+                    Book.PageCount = PrimitiveHelper.ReadInt("Book Page Count:");
+                    Book.Price = PrimitiveHelper.ReadInt("Book Price:");
                     bookmanager.Add(Book);
                     Console.Clear();
                     goto l1;
 
 
-                case MenuTypes.BookEdit: 
+                case MenuTypes.BookEdit:
+                    Console.Clear();
+                    Console.WriteLine("What you want to edit?");
+                    foreach (var item in bookmanager)
+                    {
+                        Console.WriteLine(item);
+                    }
+                    Id = PrimitiveHelper.ReadInt("Book Id:");
+
+                    if (Id == 0)
+                    {
+                        goto l1;
+                    }
+                    Book = bookmanager.GetbyID(Id);
+
+                    if (Book == null)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Not found");
+                        goto case MenuTypes.BookEdit;
+                    }
+
+                    Book.Name = PrimitiveHelper.Readstring("Book Name:");
+                    Book.Genre = PrimitiveHelper.Readstring("Book Genre:");
+                    Book.PageCount = PrimitiveHelper.ReadInt("Book Page Count:");
+                    Book.Price = PrimitiveHelper.ReadInt("Book Price:");
+
+                    goto case MenuTypes.BookGetAll;
                     break;
-                case MenuTypes.BookRemove: 
+                case MenuTypes.BookRemove:
+                    Console.Clear();
+                    Console.WriteLine("What you want to remove");
+                    foreach (var item in bookmanager)
+                    {
+                        Console.WriteLine(item);
+                    }
+                    Id = PrimitiveHelper.ReadInt("Author Id:");
+                    Book = bookmanager.GetbyID(Id);
+                    if (Book == null)
+                    {
+                        Console.Clear();
+                        goto case MenuTypes.AuthorRemove;
+                    }
+                    bookmanager.Remove(Book);
+                    Console.Clear();
+                    goto case MenuTypes.BookGetAll;
+          
+                case MenuTypes.BookGetAll:
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    Console.WriteLine("=============== Books ==============");
+                    Console.ForegroundColor = ConsoleColor.White;
+
+                    foreach (var item in authormanager)
+                    {
+                        Console.WriteLine($"Author Id{item.Id}");
+                    }
+                    foreach (var item in bookmanager)
+                    {
+                        Console.WriteLine(item);
+                    }
+
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    Console.WriteLine("=============== ======= ============");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    goto l1;
+
+                case MenuTypes.BookGetById:
+                    Id = PrimitiveHelper.ReadInt("Author Id");
+                    Book = bookmanager.GetbyID(Id);
+                    if (Id == 0)
+                    {
+                        Console.Clear();
+                        goto l1;
+                    }
+                    Console.WriteLine("Write Author Id want you want");
+                    if (Book == null)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Not found");
+                        goto case MenuTypes.AuthorGetById;
+                    }
+
+                    Console.WriteLine(Book);
+                    goto l1;
+  
+                case MenuTypes.BookFindByName:
+                    string name1 = PrimitiveHelper.Readstring("Write minimum 3 letter:");
+                    var data1 = bookmanager.FindByName(name1);
+
+                    if (data1.Length == 0)
+                    {
+                        Console.WriteLine("Not found");
+
+                        goto l1;
+                    }
+                    foreach (var item in data1)
+                    {
+                        Console.WriteLine(item);
+                    }
+                    goto l1;
+                case MenuTypes.Exit:
+                    return;
                     break;
-                case MenuTypes.BookGetAll: 
-                    break;
-                case MenuTypes.BookGetById: 
-                    break;
-                case MenuTypes.BookFindByName: 
-                    break;
-                case MenuTypes.Exit: 
-                    break;
+                default: goto l1;
 
             }
+           
         }
+
     }
 }
