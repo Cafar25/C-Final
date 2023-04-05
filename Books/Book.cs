@@ -17,7 +17,7 @@ namespace C__Final.Books
             this.Id = counter;
 
         }
-        Author Author = new Author();   
+     
         public int Id { get; private set; }
         public int AuthorId { get; set; }
         public string Name { get; set; }

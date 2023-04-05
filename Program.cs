@@ -26,7 +26,7 @@ namespace C__Final
                 - DELETE    (Remove)
 
              - Book CRUD
-               
+ 
                    BookStructure :
                                     Id                 number (++)
                                     Name          text
@@ -39,12 +39,15 @@ namespace C__Final
                 - READ     (GetAll | FindByName | GetById)
                 - UPDATE   (Edit)
                 - DELETE   (Remove)
+
              */
         
             int Id;
+            
             MenuTypes sm;
-
+            var Author = new Author();
             AuthorManager authormanager = new AuthorManager();
+            var Book = new Book();
             BookManager bookmanager = new BookManager();
 
         l1:
@@ -53,7 +56,7 @@ namespace C__Final
             switch (sm)
             {
                 case MenuTypes.AuthorAdd:
-                    var Author = new Author();
+                
                     Author.Name = PrimitiveHelper.Readstring("Author Name:");
                     Author.Surname = PrimitiveHelper.Readstring("Author Surname:");
                     authormanager.Add(Author);
@@ -99,7 +102,7 @@ namespace C__Final
                     if (Author == null)
                     {
                         Console.Clear();
-                        goto case MenuTypes.AuthorRemove;
+                        goto case MenuTypes.AuthorAdd;
                     }
                     authormanager.Remove(Author);
                     Console.Clear();
@@ -164,11 +167,12 @@ namespace C__Final
                         goto case MenuTypes.AuthorAdd;
                     }
 
-                    var Book = new Book();
+              
                     Book.Name = PrimitiveHelper.Readstring("Book Name:");
                     Book.Genre = PrimitiveHelper.Readstring("Book Genre:");
                     Book.PageCount = PrimitiveHelper.ReadInt("Book Page Count:");
                     Book.Price = PrimitiveHelper.ReadInt("Book Price:");
+                    Book.AuthorId = Author.Id;
                     bookmanager.Add(Book);
                     Console.Clear();
                     goto l1;
