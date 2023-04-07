@@ -166,8 +166,7 @@ namespace C__Final
                     {
                         goto case MenuTypes.AuthorAdd;
                     }
-
-              
+                    
                     Book.Name = PrimitiveHelper.Readstring("Book Name:");
                     Book.Genre = PrimitiveHelper.Readstring("Book Genre:");
                     Book.PageCount = PrimitiveHelper.ReadInt("Book Page Count:");
